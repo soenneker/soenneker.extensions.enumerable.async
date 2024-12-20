@@ -1,13 +1,13 @@
-using Soenneker.Tests.FixturedUnit;
+using Soenneker.Tests.Unit;
 using Xunit;
-
 
 namespace Soenneker.Extensions.Enumerable.Async.Tests;
 
-[Collection("Collection")]
-public class AsyncEnumerableExtensionTests : FixturedUnitTest
+public class AsyncEnumerableExtensionTests : UnitTest
 {
-    public AsyncEnumerableExtensionTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    [Fact]
+    public void Default()
     {
+
     }
 }
