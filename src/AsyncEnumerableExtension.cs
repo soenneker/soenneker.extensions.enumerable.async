@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Soenneker.Extensions.Enumerable.Async;
@@ -14,11 +15,11 @@ public static class AsyncEnumerableExtension
     /// </summary>
     /// <remarks>Does not maintain synchronization context</remarks>
     [Pure]
-    public static async ValueTask<List<T>> ToList<T>(this IAsyncEnumerable<T> enumerable)
+    public static async ValueTask<List<T>> ToList<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
     {
         var result = new List<T>();
 
-        await foreach (T item in enumerable.ConfigureAwait(false))
+        await foreach (T item in enumerable.ConfigureAwait(false).WithCancellation(cancellationToken))
         {
             result.Add(item);
         }
