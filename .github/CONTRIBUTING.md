@@ -1,4 +1,4 @@
-# Contributing to Soenneker.Extensions.Enumerable.Async
+﻿# Contributing to Soenneker.Extensions.Enumerable.Async
 
 We're excited that you're interested in contributing!
 
