@@ -17,7 +17,9 @@ public static class AsyncEnumerableExtension
     [Pure]
     public static async ValueTask<List<T>> ToList<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
     {
-        var result = new List<T>();
+        // Pre-allocate capacity if enumerable is a known-size collection
+        int initialCapacity = enumerable is ICollection<T> collection ? collection.Count : 0;
+        var result = initialCapacity > 0 ? new List<T>(initialCapacity) : new List<T>();
 
         await foreach (T item in enumerable.ConfigureAwait(false).WithCancellation(cancellationToken))
         {
