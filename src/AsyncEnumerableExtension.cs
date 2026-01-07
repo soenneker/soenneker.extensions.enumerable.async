@@ -17,11 +17,12 @@ public static class AsyncEnumerableExtension
     [Pure]
     public static async ValueTask<List<T>> ToList<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
     {
-        // Pre-allocate capacity if enumerable is a known-size collection
-        int initialCapacity = enumerable is ICollection<T> collection ? collection.Count : 0;
-        var result = initialCapacity > 0 ? new List<T>(initialCapacity) : new List<T>();
+        int capacity = enumerable is ICollection<T> c ? c.Count : enumerable is IReadOnlyCollection<T> rc ? rc.Count : 0;
 
-        await foreach (T item in enumerable.ConfigureAwait(false).WithCancellation(cancellationToken))
+        var result = new List<T>(capacity);
+
+        await foreach (T item in enumerable.WithCancellation(cancellationToken)
+                                           .ConfigureAwait(false))
         {
             result.Add(item);
         }
