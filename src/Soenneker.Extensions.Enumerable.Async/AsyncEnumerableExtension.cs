@@ -14,6 +14,7 @@ public static class AsyncEnumerableExtension
     /// Iterates through the async enumerable, awaiting
     /// </summary>
     /// <remarks>Does not maintain synchronization context</remarks>
+    /// <returns>Iterates through the async enumerable, awaiting.</returns>
     [Pure]
     public static async ValueTask<List<T>> ToList<T>(this IAsyncEnumerable<T> enumerable, CancellationToken cancellationToken = default)
     {
