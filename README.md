@@ -4,10 +4,23 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.enumerable.async/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.enumerable.async/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.Enumerable.Async
-### A collection of helpful AsyncEnumerable extension methods
+A collection of helpful AsyncEnumerable extension methods.
 
 ## Installation
 
-```
+```bash
 dotnet add package Soenneker.Extensions.Enumerable.Async
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Extensions.Enumerable.Async;
+
+// Given an existing IAsyncEnumerable<T> named enumerable:
+var result = enumerable.ToList();
+```
+
+## Common operations
+
+- `ToList()` - Iterates through the async enumerable, awaiting. Does not maintain synchronization context.
