@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.enumerable.async/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.enumerable.async/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.Enumerable.Async
-A collection of helpful AsyncEnumerable extension methods.
+Materializes an `IAsyncEnumerable<T>` into a `List<T>` with cancellation support.
 
 ## Installation
 
@@ -12,15 +12,15 @@ A collection of helpful AsyncEnumerable extension methods.
 dotnet add package Soenneker.Extensions.Enumerable.Async
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Extensions.Enumerable.Async;
 
-// Given an existing IAsyncEnumerable<T> named enumerable:
-var result = enumerable.ToList();
+IAsyncEnumerable<Order> orders = StreamOrders();
+List<Order> buffered = await orders.ToList(cancellationToken);
 ```
 
-## Common operations
+`ToList()` returns a `ValueTask<List<T>>` and fully consumes the source before completing. Items remain in source order. Cancellation is passed to the async enumerator; cancellation and enumeration failures propagate to the caller, and partial results are not returned.
 
-- `ToList()` - Iterates through the async enumerable, awaiting. Does not maintain synchronization context.
+The awaits use `ConfigureAwait(false)`. When the source exposes a count, that count is used only to pre-size the list; the source is still enumerated exactly once.
